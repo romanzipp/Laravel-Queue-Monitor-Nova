@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nova\Metrics;
+namespace romanzipp\QueueMonitor\Nova\Metrics;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
