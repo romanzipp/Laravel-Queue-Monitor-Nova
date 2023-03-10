@@ -13,6 +13,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
 use romanzipp\QueueMonitor\Models\Monitor;
 use romanzipp\QueueMonitor\Nova\Fields\NovaMonitorStatusField;
+use romanzipp\QueueMonitor\Nova\Filters\NovaQueueMonitorStatusFilter;
 use romanzipp\QueueMonitor\Nova\Metrics\NovaQueueMonitorExecutionsMetric;
 use romanzipp\QueueMonitor\Nova\Metrics\NovaQueueMonitorJobsPartition;
 use romanzipp\QueueMonitor\Nova\Metrics\NovaQueueMonitorSuccessMetric;
@@ -20,8 +21,6 @@ use romanzipp\QueueMonitor\Nova\Metrics\NovaQueueMonitorSuccessMetric;
 class NovaQueueMonitorJob extends Resource
 {
     public static string $model = Monitor::class;
-
-    public static array $defaultSort = ['started_at' => 'desc'];
 
     public static $title = 'name';
 
