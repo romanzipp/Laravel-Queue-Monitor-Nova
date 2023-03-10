@@ -1,12 +1,13 @@
 <?php
 
-namespace romanzipp\QueueMonitor\Nova\Metrics;
+namespace App\Nova\Metrics;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Partition;
 use Laravel\Nova\Metrics\PartitionResult;
+use romanzipp\QueueMonitor\Enums\MonitorStatus;
 use romanzipp\QueueMonitor\Models\Monitor;
 
 class NovaQueueMonitorSuccessMetric extends Partition
@@ -19,11 +20,13 @@ class NovaQueueMonitorSuccessMetric extends Partition
     public function calculate(NovaRequest $request): PartitionResult
     {
         return $this
-            ->count($request, Monitor::class, 'failed')
-            ->label(fn (bool $failed) => $failed ? 'Fail' : 'Success')
+            ->count($request, Monitor::class, 'status')
+            ->label(fn (int $status) => MonitorStatus::toNamedArray()[$status])
             ->colors([
-                0 => '#16a34a',
-                1 => '#f5573b',
+                MonitorStatus::RUNNING => '#0099ff',
+                MonitorStatus::SUCCEEDED => '#16a34a',
+                MonitorStatus::FAILED => '#f5573b',
+                MonitorStatus::STALE => '#a8a8b0',
             ]);
     }
 
