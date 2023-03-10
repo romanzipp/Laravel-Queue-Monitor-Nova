@@ -8,11 +8,11 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Line;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Stack;
-use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
 use romanzipp\QueueMonitor\Models\Monitor;
+use romanzipp\QueueMonitor\Nova\Fields\NovaMonitorStatusField;
 use romanzipp\QueueMonitor\Nova\Metrics\NovaQueueMonitorExecutionsMetric;
 use romanzipp\QueueMonitor\Nova\Metrics\NovaQueueMonitorJobsPartition;
 use romanzipp\QueueMonitor\Nova\Metrics\NovaQueueMonitorSuccessMetric;
@@ -44,9 +44,7 @@ class NovaQueueMonitorJob extends Resource
                 Line::make('Meta', fn (Monitor $monitor) => sprintf('Queue: %s', $monitor->queue))->asSmall(),
             ]),
 
-            Status::make('Status', fn (Monitor $monitor) => $monitor->isFinished() ? ($monitor->hasSucceeded() ? 'success' : 'failed') : 'running')
-                ->loadingWhen(['running'])
-                ->failedWhen(['failed']),
+            NovaMonitorStatusField::make('Status'),
 
             Number::make('Duration', fn (Monitor $monitor) => $monitor->getElapsedInterval()->cascade()->forHumans(null, true)),
             Number::make('Attempt'),
