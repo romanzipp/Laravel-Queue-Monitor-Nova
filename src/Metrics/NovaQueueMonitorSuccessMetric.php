@@ -23,7 +23,7 @@ class NovaQueueMonitorSuccessMetric extends Partition
             ->count($request, Monitor::class, 'status')
             ->label(fn (int $status) => MonitorStatus::toNamedArray()[$status])
             ->colors([
-                MonitorStatus::RUNNING => '#38bdf8',
+                MonitorStatus::RUNNING => '#3b82f6',
                 MonitorStatus::SUCCEEDED => '#22c55e',
                 MonitorStatus::FAILED => '#ef4444',
                 MonitorStatus::STALE => '#94A3B8',
