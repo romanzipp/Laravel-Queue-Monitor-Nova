@@ -12,6 +12,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
 use romanzipp\QueueMonitor\Models\Monitor;
+use romanzipp\QueueMonitor\Nova\Actions\RetryJobAction;
 use romanzipp\QueueMonitor\Nova\Fields\NovaMonitorStatusField;
 use romanzipp\QueueMonitor\Nova\Filters\NovaQueueMonitorStatusFilter;
 use romanzipp\QueueMonitor\Nova\Metrics\NovaQueueMonitorExecutionsMetric;
@@ -94,6 +95,13 @@ class NovaQueueMonitorJob extends Resource
             new NovaQueueMonitorExecutionsMetric(),
             new NovaQueueMonitorJobsPartition(),
             new NovaQueueMonitorSuccessMetric(),
+        ];
+    }
+
+    public function actions(NovaRequest $request): array
+    {
+        return [
+            new RetryJobAction(),
         ];
     }
 }
