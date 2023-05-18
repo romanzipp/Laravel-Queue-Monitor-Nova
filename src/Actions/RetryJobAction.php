@@ -7,7 +7,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
-use romanzipp\QueueMonitor\Models\Monitor;
 
 class RetryJobAction extends Action
 {
@@ -17,11 +16,6 @@ class RetryJobAction extends Action
     public $name = 'Retry';
 
     public $showInline = true;
-
-    public function __construct()
-    {
-        $this->canRun(fn (Monitor $monitor) => $monitor->canBeRetried());
-    }
 
     public function handle(ActionFields $fields, Collection $models): void
     {
