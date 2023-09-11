@@ -3,6 +3,7 @@
 namespace romanzipp\QueueMonitor\Nova\Resources;
 
 use Illuminate\Support\Str;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Line;
@@ -75,7 +76,10 @@ class NovaQueueMonitorJob extends Resource
                 );
             })->onlyOnDetail()->asHtml(),
 
-            Stack::make('Started / Ended', [
+            Boolean::make('Retried'),
+
+            Stack::make('Queued / Started / Ended', [
+                DateTime::make('Queued at'),
                 DateTime::make('Started at'),
                 DateTime::make('Finished at'),
             ]),
